@@ -1,0 +1,21 @@
+
+<h4>Categories</h4>
+<div class="list-group">
+    {% for category in categories %}
+    <a href="{{ path('post_category', {slug: category.slug}) }}" class="list-group-item  justify-content-between">
+        {{ category.name }}
+        <span class="badge badge-default badge-pill badge-primary">{{ category.postCount }}</span>
+    </a>
+    {% endfor %}
+</div>
+
+<p>&nbsp;</p>
+
+<h4>Last posts</h4>
+<div class="list-group">
+    {% for post in posts %}
+        <a href="{{ path('post_show', {slug: post.slug}) }}" class="list-group-item">
+            {{ post.name }}
+        </a>
+    {% endfor %}
+</div>

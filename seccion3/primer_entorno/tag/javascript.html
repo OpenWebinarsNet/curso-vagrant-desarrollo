@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <meta charset="utf-8" />
+        <title>vagrant forever - javascript</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">vagrant forever </a></h1>
+                <nav><ul>
+                    <li><a href="/category/desarrollo.html">desarrollo</a></li>
+                    <li><a href="/category/tutoriales.html">tutoriales</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/nodejs.html">Node.js</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2018-03-23T12:30:00+01:00">
+                Published: vie 23 marzo 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/juanda.html">Juanda</a>
+        </address>
+<p>In <a href="/category/desarrollo.html">desarrollo</a>.</p>
+<p>tags: <a href="/tag/javascript.html">javascript</a> <a href="/tag/v8.html">v8</a> <a href="/tag/web.html">web</a> <a href="/tag/multiplataforma.html">multiplataforma</a> <a href="/tag/www.html">www</a> <a href="/tag/aplicacion.html">aplicacion</a> <a href="/tag/software.html">software</a> </p>
+</footer><!-- /.post-info --><p>Un producto potente trasciende su ámbito de aplicación. Y eso es lo que le ha ocurrido a Javascript con el proyecto Node.js, el cual ha sacado literalmente a Javascript del entorno del navegador y lo ha colocado al nivel del sistema operativo, permitiendo el uso de Javascript como cualquier otro lenguaje de propósito general.</p>
+<p>Pero Node.js no es solo una máquina virtual V8 con la que ejecutar código Javascript sobre el sistema operativo. Es también un motor de ejecución que permite el desarrollo de aplicaciones concurrentes a pesar de que el motor V8 se ejecuta en un sólo hilo.</p>
+<p>La concurrencia se consigue gracias al uso de funciones asíncronas que no bloquean la ejecución de código cuando son invocadas. Dichas funciones, en su mayoría de entrada y salida (I/O), se ejecutan en otro hilo distinto o son directamente llamadas al sistema asíncronas que una vez resueltas devuelven el resultado como el argumento de una función denominada de callback, la cual está asociada a la llamada asíncrona, y que se vuelve a colocar en la pila de llamadas (call stack) de la máquina virtual V8 para que procese el dato devuelto por la función asíncrona.</p>
+<p>El responsable de realizar esta proeza misteriosa es un componente fundamental de Node.js denominado <strong>bucle de eventos</strong>(event loop).</p>
+<p>Node.js usa dos tipos de hilos en su ejecución: un hilo para el bucle de eventos y varios workers. El bucle de eventos es el responsable de controlar la ejecución de las funciones callbacks y las operaciones de entrada/salida no bloqueantes, mientras que los workers ejecutan tareas correspondiente a código C++ que son bloqueantes (por eso se hacen en otro hilo, para no parar el hilo principal del bucle de eventos) y tareas de uso intensivo de la CPU.</p>
+<p>Node.js ha sido pensado para el desarrollo de servidores siguiendo una estrategia diferente a la usada tradicionalmente. La mayor parte de los servidores ejecutan las peticiones de cada cliente en un hilo o proceso dedicado. Esta estrategia clásica presenta problemas de escalabilidad ya que el nº de hilos/procesos crece con el nº de clientes conectados al servidor. La solución propuesta por Node.js, mantiene constante el número de hilos aunque crezca el número de clientes conectados. Por eso es habitual escuchar que con Node.js se pueden realizar servidores escalables.</p>
+<p>En su contra, hemos de decir, que si alguna de las peticiones bloquea al bucle de eventos o a los workers, la resolución de peticiones se verá degradada. Y es labor del desarrollador construir un código que evite dichos bloqueos, lo cual añade un grado de dificultad al desarrollo de servidores con Node.js respecto al modelo clásico.</p>
+<p>A pesar de que actualmente el uso mayoritario de Node.js es el desarrollo servidores; aplicaciones web y APIs web fundamentalmente, al permitir realizar cualquier tipo de operación sobre el sistema operativo a través de las numerosas librerías que ofrece, también se está utilizando para el desarrollo de aplicaciones de consola (CLI) y de escritorio (electron).</p>
+<p>La siguiente imagen muestra una representación de las distintas APIs y librerías que componen Node.js. Hay que destacar el motor V8 (C++) y la librería LibUv (C++) utilizada para implementar el bucle de eventos. Además existen varias librerías de C/C++ destinadas a resolver problemas como la compresión de archivos o el manejo del protocolo SSL, una serie de añadidos en C/C++ que pueden ser fabricados por cualquier desarrollador experimentado y librerías Node.js que pueden ser desarrolladas enteramente en javascript o envolviendo el código C/C++ en funciones javascript.</p>
+<p>FALTA IMAGEN</p>
+<div class="section" id="referencias">
+<h2>Referencias</h2>
+<p><a class="reference external" href="https://nodejs.org/en/docs/guides/dont-block-the-event-loop/">no bloquees el bucle de eventos</a></p>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+- hosts: all
+  vars:
+      dbhost: localhost
+      dbname: blog
+      dbuser: bloguser
+      dbpasswd: test123
+  
+  become: yes
+
+  handlers:
+    - name: restart mysql
+      service: name=mysql state=restarted
+    
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+  tasks:
+    - name: Actualizar lista de paquetes
+      apt:
+        update_cache: yes
+    
+    - name: Instalar paquetes base
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+         - vim
+         - curl
+         - build-essential
+         - python-software-properties
+         - python-pip
+         - git 
+    
+    - name: Instalar MySQL
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - mysql-server
+        - libmysqlclient-dev
+        - python-mysqldb 
+        - python-dev
+  
+    # - name: Instalar el módulo de Python MySQLB
+    #   pip: 
+    #      name: MySQL-python
+
+    - name: Actualiza el password de root MySQL
+      mysql_user: 
+        name: root
+        host: "{{ item }}"
+        password: "{{ dbpasswd }}"
+        state: present
+      with_items:
+        - 127.0.0.1
+        - ::1
+        - localhost
+
+    - name: Copy the root credentials as .my.cnf file
+      template: 
+        src: root.cnf.j2 
+        dest: ~/.my.cnf 
+        mode: 0600
+    
+    - name: Crear base de datos blog
+      mysql_db:
+        name: blog
+        state: present
+    
+    - name: Crear usuario bloguser
+      mysql_user:
+        name: bloguser
+        password: test123
+        priv: 'blog.*:ALL,GRANT'
+        state: present
+      notify:
+        - restart mysql  
+        
+    - name: Instalar Apache y php
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - php
+        - apache2
+        - libapache2-mod-php
+        - php-curl
+        - php-gd
+        - php-mysql
+        - php-gettext
+        - php-intl
+        - phpmyadmin
+        - composer
+    
+    - name: Habilitar módulo mod_rewrite
+      apache2_module:
+        state: present
+        name: rewrite
+    
+    - name: Permitiendo a  Apache override all
+      replace:
+         path: /etc/apache2/apache2.conf
+         regexp: '(<[dD]irectory /var/www/>[^<]*)AllowOverride None'
+         replace: '\1AllowOverride All' 
+         backup: yes
+    
+    - name: Cambiando el document root a /var/www/blog/web
+      lineinfile:
+         path: /etc/apache2/sites-enabled/000-default.conf
+         regexp: 'DocumentRoot /var/www/html'
+         line: 'DocumentRoot /var/www/blog/web' 
+      notify:
+        - restart apache2
+
+    - name: Instalando dependencias del proyecto
+      shell: cd /var/www/blog/; composer install >> /home/vagrant/vm_build.log 2>&1
+
+    - name: Crear esquema base de datos
+      shell: cd /var/www/blog/; php bin/console doctrine:schema:update --force
+    
+    - name: Rellenar base de datos
+      shell: cd /var/www/blog/; php bin/console doctrine:fixtures:load
+
+    - name: debconf for pma
+      debconf: name=phpmyadmin question='phpmyadmin/dbconfig-install' value='true' vtype='boolean'
+
+    - name: debconf for pma
+      debconf: name=phpmyadmin question='phpmyadmin/app-password-confirm' value='{{dbpasswd}}' vtype='password'
+
+    - name: debconf for pma
+      debconf: name=phpmyadmin question='phpmyadmin/mysql/admin-pass' value='{{dbpasswd}}' vtype='password'
+
+    - name: debconf for pma
+      debconf: name=phpmyadmin question='phpmyadmin/mysql/app-pass' value='{{dbpasswd}}' vtype='password'
+
+    - name: debconf for pma
+      debconf: name=phpmyadmin question='phpmyadmin/reconfigure-webserver' value='' vtype='multiselect'
+
+    - name: install pma
+      apt: pkg=phpmyadmin state=present
+
+    - name: crear alias phpmyadmin
+      lineinfile:
+        path: /etc/apache2/apache2.conf
+        line: 'alias /phpmyadmin /usr/share/phpmyadmin'
+      notify:
+        restart apache2

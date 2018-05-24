@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-8">
+        {% block main %}{% endblock main %}
+    </div>
+    <div class="col-md-4">
+        {{ render(controller('AppBundle:Post:sidebar')) }}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <meta charset="utf-8" />
+        <title>vagrant forever - php</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">vagrant forever </a></h1>
+                <nav><ul>
+                    <li><a href="/category/desarrollo.html">desarrollo</a></li>
+                    <li><a href="/category/tutoriales.html">tutoriales</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/aplicaciones-web.html">Aplicaciones web</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-10-01T10:20:00+02:00">
+                Published: dom 01 octubre 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/juanda.html">Juanda</a>
+        </address>
+<p>In <a href="/category/desarrollo.html">desarrollo</a>.</p>
+<p>tags: <a href="/tag/php.html">php</a> <a href="/tag/tutorial.html">tutorial</a> <a href="/tag/web.html">web</a> <a href="/tag/http.html">http</a> <a href="/tag/www.html">www</a> <a href="/tag/aplicacion.html">aplicacion</a> <a href="/tag/sofware.html">sofware</a> </p>
+</footer><!-- /.post-info --><p>La World Wide Web es un sistema de documentos de hipertexto o hipermedios enlazados
+y distribuidos a través de Internet. En sus comienzos, la interacción entre los
+usuarios de la <em>WWW</em> y sus  servidores era muy reducida: a través de un software
+cliente denominado navegador web, el usuario se limitaba a solicitar documentos a
+los servidores y estos respondían a aquellos con el envío del documento solicitado.
+A estos documentos que circulaban por el “espacio web” se les denominó páginas web.
+Cada recurso, conocido como página web, se localiza en este espacio mediante una
+dirección única que describe tanto al servidor como al recurso: la <em>URL</em>. Cada
+página web puede incorporar las <em>URL's</em> de otras páginas como parte de su contenido.
+De esta manera se enlazan unas con otras.</p>
+<p>Han pasado más de 20 años desde la aparición de la Word Wide Web y, aunque en
+esencia su funcionamiento, basado en el protocolo <em>HTTP</em>, sigue siendo el mismo,
+la capacidad de interacción entre usuarios y servidores se ha enriquecido
+sustancialmente. De la página web hemos pasado a la aplicación web; un tipo de
+aplicación informática que adopta, de manera natural,  la arquitectura
+cliente-servidor de la web. De manera que en las peticiones  al servidor, el
+usuario no sólo solicita un recurso, si no que además puede enviar datos. El
+servidor los procesa y elabora la respuesta que corresponda en función de ellos.
+Es decir, el servidor construye dinámicamente la página web que le envía al cliente.</p>
+<p>Esta evolución comenzó con la aparición de los <em>CGI's</em>, que son aplicaciones
+escritas en cualquier lenguaje de programación y que pueden ser accedidas por el
+servidor web a petición del cliente, y ha madurado gracias a la aparición de los
+lenguajes de programación del lado del servidor, como <em>PHP</em>, <em>Java</em> o <em>Python</em>,
+gracias a los cuales los servidores web (<em>apache</em> como ejemplo más conocido y
+usado) han ampliado su funcionalidades; ya no sólo son capaces de buscar, encontrar
+y enviar documentos a petición del cliente, si no que también pueden procesar
+peticiones (acceder a base de datos, realizar peticiones a otros servidores,
+ejecutar algoritmos, …)  y construir los documentos que finalmente serán enviados
+al cliente en función de los datos que este les ha proporcionado.</p>
+<p>También es relevante en esta evolución de la web la incorporación de procesamiento
+en los navegadores web mediante lenguajes de <em>“scripting”</em> como <em>javascript</em>, que
+permiten la ejecución de ciertos procesos (casi todos relacionados con la
+manipulación de la interfaz gráfica) en el lado del cliente. De hecho, en la
+actualidad existe un interés creciente por las denominadas SPA (Single Page Application),
+aplicaciones consistentes en una sola página web con una interfaz gráfica que se ejecuta
+completamente en el cliente y solo cuando es necesario obtener datos, consultan al servidor.
+Además esta obtención de datos se hace sin recargar la página, realizando las denominadas peticiones
+asíncronas (AJAX). De esa manera las aplicaciones web han ganado muchísimo en usabilidad.</p>
+<p>Todo esto fué bautizado con el término Web 2.0, que en la actualidad está en desuso y
+que es una manera de referirse a este aumento de la capacidad de interacción con el usuario que
+permitió el desarrollo y explosión de las redes sociales y la blogosfera entre otros muchos fenómenos de
+la reducida pero incesante historia de la <em>World Wide Web</em>.</p>
+<p>El panorama actual se resume en un interés creciente por las aplicaciones web,
+hasta el punto de que, en muchos casos, han desplazado a la madura aplicación de
+escritorio. Son varias las razones que justifican  este hecho y, aunque se trata
+de un tema que por su amplitud no abordaremos en detalle, si que señalaremos
+algunas:</p>
+<ul class="simple">
+<li>Se mejora la  mantenibilidad de las aplicaciones gracias a su centralización. Al
+residir la aplicación en el servidor, desaparece el problema de la distribución
+de las mismas. Por ejemplo, los cambios en la interfaz de usuario son realizado
+una sola vez en el servidor y tienen efecto inmediatamente en todos los clientes.</li>
+<li>Se aumenta la capacidad de interacción y comunicación entre los usuarios de la
+misma, así como de su gestión.</li>
+<li>Al ser <em>HTTP</em> un protocolo de comunicación ligero y “sin conexión”
+(<em>conectionless</em>) se evita  mantener conexiones abiertas con todos y cada uno de
+sus clientes, mejorando la eficiencia de los servidores.</li>
+<li>Para utilizar la aplicación, los usuarios tan solo necesitan tener instalado un
+software denominado  navegador web (browser). Esto reduce drásticamente los
+problemas de portabilidad y distribución. También permite que terminales ligeras,
+con poca capacidad de proceso, puedan utilizar “grandes” aplicaciones ya que su
+función se limita a mostrar mediante el navegador los datos que le han sido
+enviado.</li>
+<li>El desarrollo de dispositivos móviles con conectividad a redes expande el
+dominio de uso de las aplicaciones web y abre nuevos mercados.</li>
+<li>Se puede acceder a la aplicación desde cualquier punto con acceso a la red donde
+preste servicio la aplicación. Si se trata de Internet, desde cualquier parte del
+mundo, si se trata de una intranet desde cualquier parte del mundo con acceso a
+la misma. Todo ello sin necesidad de instalar nada más que el navegador en la
+computadora cliente (punto anterior).</li>
+<li>Los lenguajes utilizados para construir las aplicaciones web son relativamente
+fáciles de aprender. Además algunos de los más utilizados ,como <em>PHP</em> y <em>Python</em>,
+se distribuyen con licencias libres y existe una gran cantidad de documentación
+de calidad disponible en la propia red Internet.</li>
+<li>Recientemente  han aparecido en escena varias plataformas y frameworks de
+desarrollo (por ejemplo <em>Zend Framework</em>, <em>CakePHP</em>, <em>symfony</em>, <em>Symfony2</em>) que
+facilitan la construcción de las aplicaciones web, reduciendo el tiempo de
+desarrollo y mejorando la calidad.</li>
+</ul>
+<p>Obviamente no todo son ventajas; incluso algunas de las ventajas que hemos señalado
+pueden convertirse en desventajas desde otros puntos de vista. Por ejemplo:</p>
+<ul class="simple">
+<li>el hecho de que los cambios realizados en una aplicación web sean efectivos
+inmediatamente en todos los clientes que la usan, puede dejar sin servicio a un
+gran número de usuarios si este cambio provoca un fallo (intencionado si se trata
+de un ataque, o no intencionado si se trata de una modificación que no ha sido
+debidamente probada). Esto repercute en la necesidad de aumentar las precauciones
+y la seguridad por parte de los responsables técnicos que mantienen la aplicación.</li>
+<li>La disponibilidad de la aplicación es completamente dependiente de la
+disponibilidad de la red. Así la aplicación web será útil en entornos donde se
+garantice la estabilidad de la red. Los programadores necesitan dominar las
+distintas tecnologías y conceptos que, en estrecha colaboración, conforman la
+aplicación (<em>HTTP</em>, <em>HTML</em>, <em>XML</em>, <em>CSS</em>, <em>javascript</em>, lenguajes de scripting
+del lado del servidor como <em>PHP</em>, <em>Java</em> o <em>Python</em>, …)</li>
+<li>La triste realidad de las incompatibilidades entre navegadores.</li>
+</ul>
+<p>No obstante, la realidad demuestra que el interés por las aplicaciones web es un
+hecho consumado, lo cual seduce a los programadores de todo el mundo a formarse en
+las tecnologías y estrategias que permiten desarrollarlas.</p>
+<div class="section" id="desarrollo-rapido-y-de-calidad-de-aplicaciones-web">
+<h2>Desarrollo rápido y de calidad de  aplicaciones web</h2>
+<p>La experiencia adquirida tras muchos años de construcción de aplicaciones
+informáticas de escritorio, dio lugar a la aparición de entornos y frameworks de
+desarrollo que no solo hacían posible construir rápidamente  las aplicaciones, si
+no que además cuidaban la calidad de las mismas. Es lo que técnicamente se conoce
+como <em>Desarrollo Rápido de Aplicaciones</em>.</p>
+<p>Sin embargo, el desarrollo de aplicaciones web es muy reciente, por lo que estas
+herramientas de desarrollo rápido y de calidad no han aparecido en el mundo de la
+web hasta hace bien poco. De hecho la construcción de una aplicación web de
+calidad no ha estado exenta de dificultades debido a esta carencia. Afortunadamente
+contamos desde hace unos pocos años con frameworks de desarrollo de aplicaciones
+web que facilitan el desarrollo de las mismas y están haciendo que el concepto de
+<em>Desarrollo Rápido de Aplicaciones</em> en este campo sea una realidad.</p>
+<p>Desarrollar con  ayuda de frameworks hace más sencillo la construcción de aplicaciones
+web que satisfagan las siguientes características, deseables en cualquier tipo de
+aplicación informática profesional al margen de sus requisitos específicos.</p>
+<ul class="simple">
+<li>Fiabilidad. La aplicación debe responder de forma que sus resultados sean
+correctos y podamos fiarnos de ellos. También implica que los datos que
+introducimos como entrada sean debidamente validados para asegurar un
+comportamiento correcto.</li>
+<li>Seguridad. La aplicación debe garantizar la confidencialidad y el acceso a la
+misma a usuarios debidamente autentificados y autorizados. En el caso de las
+aplicaciones web esto es especialmente importante puesto que residen en
+computadores que, al pertenecer a una red, son accesibles a una gran cantidad de
+personas. Lo que significa que inevitablemente están expuestas a ser atacadas
+con fines maliciosos. Por ello deben incorporar mecanismos de protección ante
+conocidas técnicas de ataque web como puede ser el <em>Cross Site Scripting (XSS)</em>.</li>
+<li>Disponibilidad. La aplicación debe prestar servicio cuando se le solicite. Es
+importante, por tanto, que los cambios requeridos por operaciones relacionadas
+con el mantenimiento (actualizaciones, migraciones de datos, migraciones de la
+aplicación a otros servidores, etcétera) sean sencillos de controlar. De esa
+manera se evitarán largas temporadas de inactividad. La disponibilidad es una de
+las características más valoradas en las aplicaciones web, ya que el
+funcionamiento de la misma no depende, por lo general, de sus usuarios si no de
+los responsables técnicos del sistema donde se encuentre alojada. Hay que pensar
+en ellos y ponérselo fácil cuando necesiten realizar este tipo de tarea.
+También es importante que los errores de funcionamiento debidos a errores de
+programación (<em>bugs</em>) sean rápidamente diagnosticados y resueltos para mejorar
+tanto la disponibilidad como la fiabilidad de la aplicación.</li>
+<li>Mantenibilidad. A medida que se usa una aplicación, aparecen nuevos requisitos y
+funcionalidades que se desean ofrecer. Un sistema mantenible permite ser
+extendido sin que ello suponga un coste muy alto, minimizando la probabilidad de
+introducir errores en los aspectos que ya estaban funcionando antes de emprender
+la implementación de nuevas característcas.</li>
+<li>Escalabilidad, es decir, que la aplicación pueda ampliarse sin perder calidad en
+los servicios ofrecidos, lo cual se consigue diseñándola de manera que sea
+flexible y modular.</li>
+</ul>
+</div>
+<div class="section" id="que-conocimientos-se-requieren-para-desarrollar-aplicaciones-web">
+<h2>Qué conocimientos se requieren para desarrollar aplicaciones web</h2>
+<p>En primer lugar, y como es obvio, hay que tener ciertos conocimientos sobre programación
+de aplicaciones informáticas, siendo especialmente importante manejarse con soltura con
+la programación orientada a objetos.</p>
+<p>Por otro lado, las aplicaciones web surgen como un puzzle que combina piezas de distintas
+tecnologías más o menos relacionadas pero diferentes:</p>
+<ul class="simple">
+<li>El protocolo <em>HTTP</em>  y los servidores web,</li>
+<li>Los lenguajes de marcado <em>HTML</em> y <em>XML</em>,</li>
+<li>Las hojas de estilo <em>CSS's</em>,</li>
+<li>Javascript como lenguaje de script del lado del cliente,</li>
+<li>Los lenguajes de script del lado del servidor (<em>PHP</em>, Java, Python fundamentalmente),</li>
+<li>Los fundamentos de la programación orientada a objetos,</li>
+<li>Los fundamentos de las bases de datos relacionales y los sistemas gestores de
+base de datos.</li>
+</ul>
+<p>No hay que ser un <em>ninja</em> experto en cada uno de estas tecnologías, pero sí es importante
+conocerlas hasta el punto de saber cual es el papel que desempeña cada una y como se relacionan
+entre sí.</p>
+</div>
+<div class="section" id="que-le-pedimos-a-una-aplicacion-web-profesional-es-decir-en-condiciones">
+<h2>Qué le pedimos a una aplicación web profesional (es decir, en condiciones)</h2>
+<p>Estos son, en mi opinión, los puntos que cualquier aplicación web debería cumplir:</p>
+<ul class="simple">
+<li>Son altamente modulares, extensibles y escalables.</li>
+<li>Separan claramente la lógica de negocio de la presentación, permitiendo que el
+trabajo de programación y de diseño puedan realizarse independientemente.</li>
+<li>Incorporaran un sistema sencillo, flexible y robusto garantizar la seguridad a
+los niveles de autentificación y autorización.</li>
+<li>Acceden a las bases de datos a través de una capa de abstracción que permite
+cambiar de sistema gestor de base de datos sin más que cambiar un parámetro de
+configuración. No es necesario tocar ni una sola línea de código para ello.</li>
+<li>Cuentan con un flexible sistema de configuración mediante el que se puede cambiar
+gran parte del comportamiento de la aplicación sin tocar nada de código. Esto
+permite, entre otras cosas, que se puedan ejecutar en distintos entornos:
+de producción, de desarrollo y de pruebas, según la fase en la que se encuentre
+la aplicación.</li>
+<li>Pueden ofrecer el resultado final en varios formatos distintos (<em>HTML, XML, JSON,
+RSS, txt, …</em>) gracias al avanzado sistema de generación de vistas,</li>
+<li>Cuentan con un potente sistema de gestión de errores y excepciones, especialmente
+útil en el entorno de desarrollo.</li>
+<li>Implementan un sistema de caché que disminuye los tiempos de ejecución de los
+scripts.</li>
+<li>Incorpora por defecto mecanismos de seguridad contra ataques XSS y CSRF.</li>
+<li>Pueden ser internacionalizadas con facilidad, aunque la aplicación no se haya
+desarrollado con la internacionalización como requisito.</li>
+<li>Incorporan un sistema de enrutamiento que proporciona URL's limpias, compuestas
+exclusivamente por rutas que ocultan detalles sobre la estructura de la
+aplicación.</li>
+<li>Cuentan con un avanzado sistema de autentificación y autorización.</li>
+</ul>
+<p>Parte de los contenidos que se incluyen en este sitio tratan de aportar conocimientos y <em>know how</em>
+que ayuden a construir aplicaciones web con las características que acabamos de enumerar.</p>
+</div>
+<div class="section" id="presente-y-futuro-de-las-aplicaciones-web">
+<h2>Presente y futuro de las aplicaciones web</h2>
+<p>En una sociedad cada vez más conectada, el desarrollo de aplicaciones web continuará siendo demandado.
+La extraordinaria escalabilidad del protocolo HTTP posiblemente sea la razón de más peso para pensar
+así.</p>
+<p>En los últimos tiempos estamos viendo crecer de manera bestial el interés a todos los niveles de la
+denominada IOT (Internet Of Things), la Internet de las cosas. Y es que estamos asistiendo a una
+proliferación de los sistemas embebidos y microcontroladores incorporados a los más diversos
+chismes que uno pueda imaginar. Muchos de estos cacharros envían y/ rebiben datos a servidores remotos
+a través de APIs REST, que son al fin y al cabo aplicaciones web.</p>
+<p>No solo eso, gracias a microcontroladores como el <a class="reference external" href="http://esp8266.net/">ESP8266</a> que incorpora la pila de protocolos TCP/IP y comunicación
+WiFi en el propio chip y que permite el desarrollo tanto de clientes como servidores web con muy pocas líneas de código,
+se está empezando a considerar la Wifi como una alternativa a lo que normalmante se ha hecho con Bluetooth.</p>
+<p>Así que si has pensado en estudiar algo de desarollo web, no dudes que el tiempo que le dediques
+bien invertido estará.</p>
+</div>
+                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

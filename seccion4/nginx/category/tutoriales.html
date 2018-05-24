@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <meta charset="utf-8" />
+        <title>vagrant forever - tutoriales</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">vagrant forever </a></h1>
+                <nav><ul>
+                    <li><a href="/category/desarrollo.html">desarrollo</a></li>
+                    <li class="active"><a href="/category/tutoriales.html">tutoriales</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/instalacion-svn-server.html">Instalación de un servidor de  subversion</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2017-10-15T10:20:00+02:00">
+                Published: dom 15 octubre 2017
+        </abbr>
+		<br />
+        <abbr class="modified" title="2017-12-05T00:00:00+01:00">
+                Updated: mar 05 diciembre 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/juanda-rodriguez.html">Juanda Rodríguez</a>
+        </address>
+<p>In <a href="/category/tutoriales.html">tutoriales</a>.</p>
+<p>tags: <a href="/tag/subversion.html">subversion</a> <a href="/tag/tutorial.html">tutorial</a> <a href="/tag/http.html">http</a> <a href="/tag/control-versiones.html">control versiones</a> </p>
+</footer><!-- /.post-info --><p>Dificilmente concibo un proyecto de desarrollo de software con cierta complejidad, incluso aunque solo
+participe una persona, que tenga éxito sin utilizar algún sistema de control de versiones. Especialmente
+si el software llega a una versión estable en la que, con toda seguridad, habrá que corregir <em>bugs</em> y,
+además, se pretende desarrollar una nueva versión mientras la versión estable está en uso.</p>
+<p>Por ello, el sistema de control de versiones es una herramienta imprescindible y básica en el toolbox de
+cualquier desarrollador de software.</p>
+<p>Cierto es que &quot;pillarle el rollo&quot; a estos sistemas no es inmediato y suele suponer una barrera importante
+para el desarrollador novel. Pero todo el tiempo que se invierta en su conocimiento y en adquirir soltura
+con ellos bien utilizado está. No quepa duda de que se rentabilizará a la larga.</p>
+<p>Subversion fué uno de los primeros sistemas de control de versiones open source y ha sido utilizado en
+muchos proyectos conocidísimos en el mundo del open source y el free software:</p>
+<ul class="simple">
+<li>Apache Software Foundation</li>
+<li>Django</li>
+<li>Free Pascal</li>
+<li>FreeBSD</li>
+</ul>
+<p>Son algunos de ellos.</p>
+<p>En este tutorial vamos a mostrar como instalar un completo servidor de subversion en una máquina
+con GNU Linux Ubuntu 16.04.</p>
+<p>A un repositorio de subversion se puede acceder de 3 formas:</p>
+<ol class="arabic simple">
+<li>Directamente a través del sistema de ficheros de la misma máquina. No adecuada para trabajar en equipo.</li>
+<li>Usando el demonio <tt class="docutils literal">svnserve</tt> que usa un protocolo propio de subversion.</li>
+<li>Usando WebDAV con apache que es una extensión de HTTP que permite usar un servidor web como servidor de ficheros.</li>
+</ol>
+<p>Veremos la 3ª forma de acceso ya que es muy sencilla de desplegar y mantener al utilizar un servicio
+muy conocido y ubicuo como es HTTP con apache y la extensión WebDAV. Además, al exponer el servicio en el puerto 80, con lo que se evitan problemas con los cortafuegos perimetrales, ya que el
+puerto 80 (o 443 si se usa servidor seguro), se evitan problemas con los cortafuegos perimetrales ya que
+esos puertos están generalmente abiertos en cualquier infraestructura. Además ofrece una manera directa de
+navegar por los repositorios utilizando cualquier navegador web.</p>
+<p>La instalación que describimos es para realizarla en un servidor con GNU Linux Ubuntu 16.04.
+No obstante sigue siendo válida para cualquier otra distribución de GNU Linux sin más que cambiar las instrucciones
+de instalación <tt class="docutils literal"><span class="pre">apt-get</span></tt> por las correspondientes para la gestión de paquetes de la distribución que se
+use (<tt class="docutils literal">yum</tt> para CentOS o Fedora, por ejemplo).</p>
+<p>Comenzamos instalando el servidor web apache, subversion y el módulo subversion de apache, que en cualquier distribución de GNU Linux se
+encuentran como paquetes instalables.</p>
+<div class="highlight"><pre><span></span>apt-get install apache2
+apt-get install subversion
+apt-get install libapache2-svn
+</pre></div>
+<p>El módulo libapache2-svn es que el hace posible acceder a los repositorios de subversion a través de
+WebDAV.</p>
+<p>Ahora creamos el grupo <tt class="docutils literal">subversion</tt> y añadimos el usuario <tt class="docutils literal"><span class="pre">www-data</span></tt> que es con el que se ejecuta
+el servicio <em>apache</em>, al grupo subversion.</p>
+<div class="highlight"><pre><span></span>addgroup subversion
+adduser www-data subversion
+</pre></div>
+<p>y editamos el fichero <tt class="docutils literal"><span class="pre">/etc/apache2/mods-available/dav_svn.conf</span></tt> para configurar el directorio donde
+se alojarán los repositorios de subversion y para proteger el acceso mediante autoriación básica HTTP.
+El fichero de usuarios con sus password también se indica en este fichero.</p>
+<div class="highlight"><pre><span></span>&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /var/lib/svn
+  SVNListParentPath On
+  AuthType Basic
+  AuthName <span class="s2">&quot;Subversion Repository&quot;</span>
+  AuthUserFile /etc/apache2/dav_svn.passwd
+  Require valid-user
+&lt;/Location&gt;
+</pre></div>
+<p>Y ya lo tenemos todo, solo nos faltan los usuarios que tendrán acceso a los repositorios y algún repositorio
+para trabajar.</p>
+<p>La creación de usuarios se hace con la herramienta estándar de apache <tt class="docutils literal">htpasspwd</tt>:</p>
+<div class="highlight"><pre><span></span>htpasswd -c /etc/apache2/dav_svn.passwd juanda
+</pre></div>
+<p>Y la creación de repositorios con la herramienta <tt class="docutils literal">svnadmin</tt>. Es importante que el usuario <tt class="docutils literal"><span class="pre">www-data</span></tt>
+tenga permisos de escritura sobre el repositorio para que los usuarios puedan enviar sus cambios y estos
+sean guardados en el repositorio.</p>
+<div class="highlight"><pre><span></span>svnadmin create /var/lib/svn/prueba
+chown -R www-data /var/lib/svn/prueba
+</pre></div>
+<p>Y, por lo pronto solo el usuario <tt class="docutils literal">juanda</tt> podrá comenzar a usar el servidor de subversion.</p>
+<p>Por lo pronto todos los usuarios que se creen con <tt class="docutils literal">htpasswd</tt> tendrán acceso a todos los repositorio.
+Pero podemos afinar esto un poco más y controlar el acceso por directorio. Para ello se usa el módulo
+de apache <tt class="docutils literal">authz_svn</tt>, que lo hemos instalado con las instrucciones anteriores. Simplemente tenemos
+que configurarlo adecuadamente. Esto se hace sin más que añadir al fichero de configuración
+<tt class="docutils literal"><span class="pre">/etc/apache2/mods-available/dav_svn.conf</span></tt>, la línea <tt class="docutils literal">AuthzSVNAccessFile /etc/apache2/auth_svn</tt>:</p>
+<div class="highlight"><pre><span></span>&lt;Location /svn&gt;
+    DAV svn
+    SVNParentPath /var/lib/svn
+    SVNListParentPath On
+    AuthType Basic
+    AuthName <span class="s2">&quot;Subversion Repository&quot;</span>
+    AuthUserFile /etc/apache2/dav_svn.passwd
+    AuthzSVNAccessFile /etc/apache2/auth_svn
+    Require valid-user
+  &lt;/Location&gt;
+</pre></div>
+<p>En dicha línea se hace referencia a un fichero que es el que contendrá las reglas de acceso a los
+directorios. Este archivo tiene la siguiente pinta:</p>
+<div class="highlight"><pre><span></span><span class="o">[</span>/<span class="o">]</span>
+* <span class="o">=</span> r
+
+<span class="o">[</span>nombre_repo_1:/<span class="o">]</span>
+<span class="nv">juanda</span> <span class="o">=</span> rw
+<span class="nv">jara</span> <span class="o">=</span> r
+
+<span class="o">[</span>nombre_repo_2:/trunk<span class="o">]</span>
+<span class="nv">juanda</span> <span class="o">=</span> rw
+</pre></div>
+<p>No vamos a entrar a explicar con detalle la sintaxis de este fichero, puedes consultarla <a class="reference external" href="http://svnbook.red-bean.com/en/1.7/svn.serverconfig.pathbasedauthz.html">aquí</a>. Pero como puedes
+ver es bastante intuitiva. El fichero de más arriba dice que todos los usuarios tienen acceso
+de lectura a todos los repositorios, que sobre el repositorio completo <tt class="docutils literal">nombre_repo_1</tt>, juanda
+puede escribir y leer y jara solo leer. Y que sobre el directorio <tt class="docutils literal">trunk</tt> del repositorio
+<tt class="docutils literal">nombre_repo_2</tt>, juanda puede leer y escribir y los demás solo leer. En realidad la línea</p>
+<div class="highlight"><pre><span></span><span class="nv">jara</span> <span class="o">=</span> r
+</pre></div>
+<p>de la sección <tt class="docutils literal"><span class="pre">[nombre_repo_1:/]</span></tt> es innecesaria pues ya se ha dado acceso de
+lectura por defecto en las 2 primeras líneas, pero se ha añadido aquí para mostrar un poco más
+la sintaxis de este fichero de autorización.</p>
+<p>Si se apunta con un navegador web a la url: <tt class="docutils literal"><span class="pre">http://mi.servidor-svn.es/svn</span></tt> podremos navegar por los
+repositorios creados y visualizar el contenido de sus archivos. No obstante el aspecto de la interfaz
+es muy pobre. Si queremos una interfaz algo más atractiva, podemos instalar la aplicación PHP <em>websvn</em>.
+Esta aplicación no se encuentra en el repositorio de Ubuntu 16.04, pero podemos instalarla a partir de
+sus fuentes:</p>
+<div class="highlight"><pre><span></span>apt-get install php libapache2-mod-php php-mcrypt
+mkdir /var/www/html/
+<span class="nb">cd</span> /var/www/html
+wget http://websvn.tigris.org/files/documents/1380/49056/websvn-2.3.3.tar.gz
+tar xvzf websvn-2.3.3.tar.gz
+mv websvn-2.3.3 websvn
+<span class="nb">cd</span> websvn
+cp include/distconfig.php include/config.php
+</pre></div>
+<p>y editamos el fichero <tt class="docutils literal">include/config.php</tt> para añadir al final la ubicación del directorio donde
+están los proyectos de subversion:</p>
+<div class="highlight"><pre><span></span><span class="x">$config-&gt;parentPath(&quot;/var/lib/svn&quot;);</span>
+</pre></div>
+<p>Protegemos  el directorio <tt class="docutils literal">/var/www/html/websvn</tt> tal y como hicimos con <tt class="docutils literal">/var/lib/svn</tt>, usando
+autenticación básica HTTP. Para ello editamos el fichero <tt class="docutils literal"><span class="pre">/etc/apache2/sites-available/000-default.conf</span></tt>
+y añadimos dentro de la sección <tt class="docutils literal">&lt;VirtualHost&gt;</tt>:</p>
+<div class="highlight"><pre><span></span>&lt;Directory /var/www/html/websvn&gt;
+    AuthType Basic
+    AuthName <span class="s2">&quot;Subversion Repository&quot;</span>
+    AuthUserFile /etc/apache2/dav_svn.passwd
+    Require valid-user
+&lt;/Directory&gt;
+</pre></div>
+<p>Y finalmente reiniciamos el servicio <em>apache</em>:</p>
+<div class="highlight"><pre><span></span>systemctl restart apache2
+</pre></div>
+<p>Et voilà! Ya tenemos un completo servidor de subversion para nuestro equipo de desarrollo.</p>
+                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

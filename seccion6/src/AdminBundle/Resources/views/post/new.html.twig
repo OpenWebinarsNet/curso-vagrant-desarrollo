@@ -1,0 +1,12 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>New Post</h1>
+
+    <p>
+        <a href="{{ path('admin_post_index') }}">< Back to the list</a>
+    </p>
+
+    {% include "AdminBundle::post/form.html.twig" with {form: form} %}
+
+{% endblock %}

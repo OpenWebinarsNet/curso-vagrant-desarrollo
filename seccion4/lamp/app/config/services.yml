@@ -1,0 +1,16 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+  app.excerpt_extension:
+    class: AppBundle\Twig\TwigExtension
+    public: false
+    autowire: true
+    tags:
+      - { name: twig.extension }
+  app.counter_subscriber:
+    class: AppBundle\EventListener\CounterSubscriber
+    tags:
+      - { name: doctrine.event_subscriber, connection: default }

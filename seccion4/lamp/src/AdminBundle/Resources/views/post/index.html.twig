@@ -1,0 +1,43 @@
+{% extends 'AdminBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h1>Manage posts</h1>
+
+    <p>
+        <a href="{{ path('admin_post_new') }}" class="btn btn-primary">Add a new post</a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Publication date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.name }}</td>
+                <td>{{ post.category.name }}</td>
+                <td>{% if post.createdAt %}{{ post.createdAt | date('d/m/Y H:i') }}{% endif %}</td>
+                <td>
+                    <a href="{{ path('admin_post_edit', {id: post.id}) }}" class="btn btn-primary">Edit</a>
+                    {{ form_start(delete_forms[post.id], {attr: {style: 'display:inline'}}) }}
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                    {{ form_end(delete_forms[post.id]) }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(posts) }}
+    </div>
+
+{% endblock %}

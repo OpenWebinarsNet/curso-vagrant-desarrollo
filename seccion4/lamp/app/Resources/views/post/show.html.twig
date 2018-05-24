@@ -1,0 +1,48 @@
+{% extends 'sidebar.html.twig' %}
+
+{% block title %}
+    {{ post.name }}
+{% endblock %}
+
+{% block main %}
+    <h1>{{ post.name }}</h1>
+    <p>
+        <small>
+            Category : <a href="{{ path('post_category', {slug: post.category.slug}) }}">{{ post.category.name }}</a>,
+            by <a href="{{ path('post_author', {id: post.user.id}) }}">{{ post.user.username }}</a>
+            on {{ post.createdAt|date("M dS Y") }}</small>
+    </p>
+
+    {{ post.content|raw|markdown }}
+
+    <p>&nbsp;</p><!-- I know.... -->
+
+    <h3>Comment this post</h3>
+
+    {{ form_start(comment_form) }}
+        <div class="row">
+            <div class="col-sm-6">
+                {{ form_row(comment_form.username) }}
+            </div>
+            <div class="col-sm-6">
+                {{ form_row(comment_form.email) }}
+            </div>
+        </div>
+    {{ form_widget(comment_form) }}
+    {{ form_end(comment_form) }}
+
+    <h3>{{ post.comments|length }} Comment{% if post.comments|length > 0 %}s{% endif %}</h3>
+
+    {% for comment in post.comments %}
+        <div class="row">
+            <div class="col-md-2">
+                <img src="{{ comment.gravatar }}" width="100%">
+            </div>
+            <div class="col-md-10">
+                <p><strong>{{ comment.username }}</strong> {{ comment.createdAt|ago }}</p>
+                <p>{{ comment.content }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
